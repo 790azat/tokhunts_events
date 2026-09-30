@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\VercelBlob;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Storage;
@@ -15,6 +16,9 @@ class WorkMedia extends Model
         static::deleted(function (WorkMedia $media) {
             if ($media->path) {
                 Storage::disk(config('filesystems.media_disk'))->delete($media->path);
+            }
+            if ($media->url) {
+                VercelBlob::delete($media->url);
             }
         });
     }

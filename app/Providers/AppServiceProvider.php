@@ -2,10 +2,12 @@
 
 namespace App\Providers;
 
+use App\Models\User;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
+use Throwable;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,22 +25,42 @@ class AppServiceProvider extends ServiceProvider
             URL::forceScheme('https');
         }
 
-        $this->bootDemoDatabase();
+        $this->prepareVercelDatabase();
     }
 
     /**
-     * Demo mode for Vercel before a real database is configured: the SQLite file lives in /tmp,
-     * so it is created, migrated and seeded on each cold start and its data is not permanent.
+     * Vercel has no deploy hook for PHP, so the first request of each deployment runs pending
+     * migrations (and seeds the admin + starter content into an empty database).
+     * Without DB_CONNECTION the site runs on a throwaway SQLite demo database in /tmp.
      */
-    private function bootDemoDatabase(): void
+    private function prepareVercelDatabase(): void
     {
-        $path = config('database.connections.sqlite.database');
-
-        if (! env('VERCEL') || config('database.default') !== 'sqlite' || ! str_starts_with($path, '/tmp/') || file_exists($path)) {
+        if (! env('VERCEL') || $this->app->runningInConsole()) {
             return;
         }
 
-        touch($path);
-        Artisan::call('migrate', ['--force' => true, '--seed' => true]);
+        $connection = config('database.default');
+        $marker = '/tmp/migrated-'.(env('VERCEL_DEPLOYMENT_ID') ?: 'deployment').'-'.$connection;
+        if (file_exists($marker)) {
+            return;
+        }
+
+        if ($connection === 'sqlite') {
+            $path = config('database.connections.sqlite.database');
+            if (! str_starts_with($path, '/tmp/')) {
+                return;
+            }
+            touch($path);
+        }
+
+        try {
+            Artisan::call('migrate', ['--force' => true]);
+            if (! User::where('is_admin', true)->exists()) {
+                Artisan::call('db:seed', ['--force' => true]);
+            }
+            touch($marker);
+        } catch (Throwable $e) {
+            report($e);
+        }
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BlobUploadController;
 use App\Http\Controllers\SiteController;
 use App\Livewire\Account;
 use App\Livewire\Admin;
@@ -34,6 +35,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::post('/blob-upload', BlobUploadController::class)->name('blob-upload');
     Route::livewire('/', Admin\Dashboard::class)->name('dashboard');
     Route::livewire('/works', Admin\Works::class)->name('works');
     Route::livewire('/works/create', Admin\WorkForm::class)->name('works.create');

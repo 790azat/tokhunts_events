@@ -23,6 +23,13 @@ class Settings extends Component
         $this->values = array_map(fn ($v) => (string) $v, Setting::values());
     }
 
+    public function setHeroVideo(string $kind, string $url): void
+    {
+        abort_unless($kind === 'video' && \App\Support\VercelBlob::owns($url), 422);
+        $this->values['hero_video'] = $url;
+        $this->save();
+    }
+
     public function save(): void
     {
         $this->validate([

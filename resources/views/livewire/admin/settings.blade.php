@@ -22,9 +22,13 @@
         <h2 class="font-semibold text-stone-100">Видео на главном экране</h2>
         <p class="text-xs text-stone-500">Если задано, вместо слайд-шоу из фото на первом экране будет играть это видео (без звука, по кругу). Лучше короткий ролик MP4 до 20–30 МБ.</p>
         <div><label class="a-label">Ссылка на MP4</label><input wire:model="values.hero_video" class="a-field" placeholder="https://…/hero.mp4">@error('values.hero_video')<p class="error">{{ $message }}</p>@enderror</div>
+        @if (\App\Support\VercelBlob::enabled())
+            <x-admin.blob-uploader folder="site" method="setHeroVideo" accept="video/mp4,video/webm" label="Загрузить видео" hint="MP4 или WEBM" />
+        @else
         <div><label class="a-label">…или загрузить файл</label><input type="file" wire:model="heroVideo" accept="video/mp4,video/webm" class="text-sm text-stone-400">
             <div wire:loading wire:target="heroVideo" class="text-xs text-gold-300">Загрузка…</div>
             @error('heroVideo')<p class="error">{{ $message }}</p>@enderror</div>
+        @endif
     </div>
     <button class="a-btn bg-gold-500 px-6 py-3 text-ink-950 hover:bg-gold-300" wire:loading.attr="disabled">Сохранить</button>
 </form>

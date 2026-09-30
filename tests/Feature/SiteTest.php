@@ -98,4 +98,30 @@ class SiteTest extends TestCase
         Storage::disk('public')->assertExists($work->media[0]->path);
         $this->assertSame('https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0', $work->media[3]->embedUrl());
     }
+
+    public function test_admin_gets_a_vercel_blob_client_token_and_attaches_blob_files(): void
+    {
+        config(['services.blob.token' => 'vercel_blob_rw_Store123_secret']);
+        $admin = User::factory()->create(['is_admin' => true]);
+
+        $this->postJson('/admin/blob-upload', ['type' => 'blob.generate-client-token', 'payload' => ['pathname' => 'works/a.jpg']])
+            ->assertUnauthorized();
+
+        $token = $this->actingAs($admin)
+            ->postJson('/admin/blob-upload', ['type' => 'blob.generate-client-token', 'payload' => ['pathname' => 'works/a.jpg']])
+            ->assertOk()
+            ->json('clientToken');
+        $this->assertStringStartsWith('vercel_blob_client_Store123_', $token);
+
+        $this->actingAs($admin)
+            ->postJson('/admin/blob-upload', ['type' => 'blob.generate-client-token', 'payload' => ['pathname' => '../etc/passwd']])
+            ->assertStatus(422);
+
+        Livewire::test(WorkForm::class)
+            ->set('title.ru', 'Blob')
+            ->call('addBlob', 'image', 'https://store123.public.blob.vercel-storage.com/works/a-x1.jpg')
+            ->call('save');
+
+        $this->assertSame('https://store123.public.blob.vercel-storage.com/works/a-x1.jpg', Work::latest('id')->first()->media->first()->src());
+    }
 }

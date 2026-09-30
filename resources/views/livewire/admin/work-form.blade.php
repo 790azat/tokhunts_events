@@ -33,6 +33,26 @@
         <div class="a-card space-y-5">
             <h2 class="font-semibold text-stone-100">Добавить фото и видео</h2>
 
+            @if (\App\Support\VercelBlob::enabled())
+                <x-admin.blob-uploader folder="works" method="addBlob" />
+                @if ($blobs)
+                    <div>
+                        <p class="a-label">Загружено, добавится после сохранения</p>
+                        <div class="grid grid-cols-3 gap-3 sm:grid-cols-5">
+                            @foreach ($blobs as $i => $blob)
+                                <div class="relative aspect-square overflow-hidden rounded-xl bg-ink-800" wire:key="blob-{{ $i }}">
+                                    @if ($blob['type'] === 'image')
+                                        <img src="{{ $blob['url'] }}" class="size-full object-cover" alt="">
+                                    @else
+                                        <video src="{{ $blob['url'] }}#t=1" muted preload="metadata" class="size-full object-cover"></video>
+                                    @endif
+                                    <button type="button" wire:click="removeBlob({{ $i }})" class="absolute top-1 right-1 rounded-full bg-black/70 p-1"><x-icon name="x" class="size-4" /></button>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+            @else
             <div class="grid gap-4 md:grid-cols-2">
                 @foreach (['photos' => ['Фотографии', 'image/*', 'JPG, PNG, WEBP до 20 МБ', 'photo'], 'videos' => ['Видео', 'video/mp4,video/quicktime,video/webm', 'MP4, MOV, WEBM до 200 МБ', 'video']] as $field => [$label, $accept, $hint, $icon])
                     <label x-data="{ uploading: false, progress: 0 }"
@@ -74,6 +94,8 @@
                         @endforeach
                     </div>
                 </div>
+            @endif
+
             @endif
 
             <div>

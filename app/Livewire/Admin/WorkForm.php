@@ -5,6 +5,7 @@ namespace App\Livewire\Admin;
 use App\Models\Category;
 use App\Models\Work;
 use App\Models\WorkMedia;
+use App\Support\VercelBlob;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -37,6 +38,9 @@ class WorkForm extends Component
     public array $videos = [];
 
     public string $link = '';
+
+    /** Files already uploaded to Vercel Blob for a work that is not saved yet: [['type' => ..., 'url' => ...]]. */
+    public array $blobs = [];
 
     public array $captions = [];
 
@@ -92,6 +96,26 @@ class WorkForm extends Component
         array_splice($this->{$field}, $index, 1);
     }
 
+    public function addBlob(string $type, string $url): void
+    {
+        abort_unless(in_array($type, ['image', 'video'], true) && VercelBlob::owns($url), 422);
+
+        if ($this->work) {
+            $this->work->media()->create(['type' => $type, 'url' => $url, 'position' => (int) $this->work->media()->max('position') + 1]);
+            $this->work->load('media');
+        } else {
+            $this->blobs[] = ['type' => $type, 'url' => $url];
+        }
+    }
+
+    public function removeBlob(int $index): void
+    {
+        if (isset($this->blobs[$index])) {
+            VercelBlob::delete($this->blobs[$index]['url']);
+            array_splice($this->blobs, $index, 1);
+        }
+    }
+
     public function save()
     {
         $this->validate();
@@ -117,6 +141,9 @@ class WorkForm extends Component
         foreach ($this->videos as $video) {
             $work->media()->create(['type' => 'video', 'path' => $video->store('works/'.$work->id, $disk), 'position' => $position++]);
         }
+        foreach ($this->blobs as $blob) {
+            $work->media()->create(['type' => $blob['type'], 'url' => $blob['url'], 'position' => $position++]);
+        }
         if ($this->link) {
             $media = new WorkMedia(['url' => $this->link]);
             $type = $media->embedUrl() ? 'embed' : (preg_match('/\.(mp4|webm|mov)(\?|$)/i', $this->link) ? 'video' : 'image');
@@ -129,7 +156,7 @@ class WorkForm extends Component
             }
         }
 
-        $this->reset('photos', 'videos', 'link');
+        $this->reset('photos', 'videos', 'link', 'blobs');
 
         if ($isNew) {
             session()->flash('saved', 'Работа создана. Можно добавить ещё фото или видео.');

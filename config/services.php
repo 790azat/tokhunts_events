@@ -35,4 +35,9 @@ return [
         ],
     ],
 
+    // Vercel Blob: photos/videos from the admin panel are uploaded straight from the browser.
+    'blob' => [
+        'token' => env('BLOB_READ_WRITE_TOKEN'),
+    ],
+
 ];
