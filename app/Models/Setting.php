@@ -11,7 +11,7 @@ class Setting extends Model
     public const KEYS = ['phone', 'email', 'address', 'instagram', 'facebook', 'whatsapp', 'telegram', 'hero_video', 'stat_events', 'stat_guests', 'stat_years'];
 
     public const DEFAULTS = [
-        'phone' => '+374 00 000 000',
+        'phone' => '+374 98 89 77 78',
         'email' => 'info@tokhunts.events',
         'address' => 'Yerevan, Armenia',
         'instagram' => 'https://www.instagram.com/tokhunts.eventsss/',

@@ -18,7 +18,7 @@
             <x-logo />
         </a>
 
-        <nav class="hidden items-center gap-8 lg:flex">
+        <nav class="hidden items-center gap-6 lg:flex 2xl:gap-8">
             @foreach ($links as $key => $url)
                 <a href="{{ $url }}" @if($key !== 'services') wire:navigate @endif
                    class="relative text-sm font-semibold text-stone-300 transition hover:text-gold-300 after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:rounded-full after:w-0 after:bg-gradient-to-r after:from-[#ff4f8b] after:to-[#ffc93c] after:transition-all hover:after:w-full">
@@ -28,6 +28,11 @@
         </nav>
 
         <div class="flex items-center gap-3">
+            @if ($settings['phone'])
+                <a href="tel:{{ preg_replace('/[^\d+]/', '', $settings['phone']) }}" class="hidden items-center gap-2 text-sm font-bold whitespace-nowrap text-stone-200 transition hover:text-gold-400 2xl:flex">
+                    <span class="joy-1 grid size-8 place-items-center rounded-full"><x-icon name="phone" class="size-4" /></span>{{ $settings['phone'] }}
+                </a>
+            @endif
             <x-locale-switcher />
 
             @auth
@@ -50,7 +55,7 @@
                 <a href="{{ route('login') }}" wire:navigate class="hidden text-sm text-stone-300 hover:text-gold-300 sm:block">{{ __('site.nav.login') }}</a>
             @endauth
 
-            <a href="{{ route('contact') }}" wire:navigate class="btn-gold hidden !px-5 !py-2.5 md:inline-flex">{{ __('site.nav.book') }}</a>
+            <a href="{{ route('contact') }}" wire:navigate class="btn-gold hidden !px-5 !py-2.5 whitespace-nowrap md:inline-flex">{{ __('site.nav.book') }}</a>
 
             <button @click="open = !open" class="grid size-10 place-items-center rounded-full border border-white/10 lg:hidden" aria-label="Menu">
                 <x-icon name="menu" x-show="!open" />
@@ -76,6 +81,9 @@
                     <a href="{{ route('register') }}" class="btn-ghost">{{ __('site.nav.register') }}</a>
                 @endauth
                 <a href="{{ route('contact') }}" class="btn-gold">{{ __('site.nav.book') }}</a>
+                @if ($settings['phone'])
+                    <a href="tel:{{ preg_replace('/[^\d+]/', '', $settings['phone']) }}" class="btn-ghost"><x-icon name="phone" class="size-4" /> {{ $settings['phone'] }}</a>
+                @endif
             </div>
         </nav>
     </div>
