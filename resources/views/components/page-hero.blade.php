@@ -1,4 +1,4 @@
-@props(['eyebrow', 'title', 'image' => 'https://images.unsplash.com/photo-1478146896981-b80fe463b330?auto=format&fit=crop&w=2000&q=60'])
+@props(['eyebrow', 'title', 'image' => '/media/works/white-wedding-decor/1.webp'])
 <section class="relative overflow-hidden pt-40 pb-20">
     <div class="absolute inset-0 bg-cover bg-center opacity-25" style="background-image:url('{{ $image }}')"></div>
     <div class="absolute inset-0 bg-gradient-to-b from-ink-950/60 to-ink-950"></div>

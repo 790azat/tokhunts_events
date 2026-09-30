@@ -1,8 +1,8 @@
 @php
     $fallbackHero = [
-        'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=2000&q=70',
-        'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=2000&q=70',
-        'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=2000&q=70',
+        '/media/works/pearl-birthday/1.webp',
+        '/media/works/white-wedding-decor/1.webp',
+        '/media/works/blue-arch-kids-birthday/1.webp',
     ];
     $slides = $heroImages->isNotEmpty() ? $heroImages->all() : $fallbackHero;
     $heroVideo = \App\Models\Setting::get('hero_video');
