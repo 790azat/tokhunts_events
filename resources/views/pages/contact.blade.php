@@ -1,7 +1,7 @@
 @php($settings = \App\Models\Setting::values())
 <x-layouts::app :title="__('site.nav.contact')">
     <x-page-hero :eyebrow="__('site.form.eyebrow')" :title="__('site.form.title')"
-                 image="https://images.unsplash.com/photo-1505236858219-8359eb29e329?auto=format&fit=crop&w=2000&q=60">
+                 image="/media/works/pink-balloons/1.webp">
         {{ __('site.form.text') }}
     </x-page-hero>
     <section class="container-x grid gap-10 pb-28 lg:grid-cols-3">
