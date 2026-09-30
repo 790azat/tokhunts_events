@@ -30,7 +30,7 @@ php artisan serve
 
 | Что | Выбор по умолчанию | Почему |
 | --- | --- | --- |
-| PHP | `vercel-php@0.8.0` (`api/index.php`, `vercel.json`) | community-runtime для PHP на Vercel |
+| PHP | `vercel-php@0.8.0` (`api/index.php`, `vercel.json`), регион `fra1` | community-runtime для PHP на Vercel; регион рядом с базой Neon (Франкфурт) и с Арменией |
 | База | Postgres от **Neon** (Vercel → Storage → Neon, бесплатный план) | подключается к проекту в два клика, сам добавляет переменные |
 | Фото и видео | **Vercel Blob** (Vercel → Storage → Blob, подключается к проекту) | файлы грузятся из браузера прямо в Blob, минуя лимит Vercel 4.5 МБ; до 500 МБ на файл |
 
