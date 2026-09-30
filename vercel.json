@@ -20,7 +20,7 @@
             }
         },
         {
-            "src": "/(favicon\\.(?:ico|svg)|robots\\.txt)",
+            "src": "/(favicon\\.(?:ico|svg)|robots\\.txt|logo\\.(?:svg|png))",
             "dest": "/$1"
         },
         {

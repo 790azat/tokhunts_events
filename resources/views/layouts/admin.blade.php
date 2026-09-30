@@ -21,15 +21,15 @@
     <title>{{ $title ?? 'Админ-панель' }} · Tokhunts Events</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Manrope:wght@400;500;600;700&family=Noto+Sans+Armenian:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Unbounded:wght@400;500;600;700&family=Pacifico&family=Noto+Sans+Armenian:wght@400;500;600;700&display=swap" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/admin.js'])
 </head>
 <body class="min-h-screen font-sans" x-data="{ side: false }">
     <aside :class="side ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'"
            class="fixed inset-y-0 left-0 z-40 flex w-64 flex-col border-r border-white/8 bg-ink-900 transition-transform">
         <a href="{{ route('home') }}" class="flex h-16 items-center gap-3 border-b border-white/8 px-5">
-            <span class="grid size-9 place-items-center rounded-full border border-gold-500/50 font-display text-lg text-gold-400">T</span>
-            <span class="font-display text-xl text-stone-50">Tokhunts <span class="text-gold-400">Admin</span></span>
+            <x-logo size="size-9" light />
+            <span class="ml-auto rounded-full bg-white/8 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-stone-400">Admin</span>
         </a>
         <nav class="flex-1 space-y-1 overflow-y-auto p-3">
             @foreach ($nav as [$route, $icon, $label])

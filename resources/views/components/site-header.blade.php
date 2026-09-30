@@ -11,21 +11,17 @@
 <header x-data="{ open: false, scrolled: false }"
         x-init="scrolled = window.scrollY > 40"
         @scroll.window="scrolled = window.scrollY > 40"
-        :class="scrolled || open ? 'bg-ink-950/85 backdrop-blur-xl border-white/8' : 'bg-transparent border-transparent'"
+        :class="scrolled || open ? 'bg-ink-950/85 backdrop-blur-xl border-white/8 shadow-[0_10px_30px_-20px_rgb(255_79_139/0.5)]' : 'bg-transparent border-transparent'"
         class="fixed inset-x-0 top-0 z-50 border-b transition-colors duration-500">
     <div class="container-x flex h-20 items-center justify-between gap-6">
-        <a href="{{ route('home') }}" class="group flex items-center gap-3" wire:navigate>
-            <span class="grid size-10 place-items-center rounded-full border border-gold-500/50 font-display text-xl text-gold-400 transition group-hover:bg-gold-500 group-hover:text-ink-950">T</span>
-            <span class="leading-tight">
-                <span class="block font-display text-xl tracking-wide text-stone-50">Tokhunts</span>
-                <span class="block text-[10px] uppercase tracking-[0.35em] text-gold-400">Events</span>
-            </span>
+        <a href="{{ route('home') }}" wire:navigate aria-label="Tokhunts Events">
+            <x-logo />
         </a>
 
         <nav class="hidden items-center gap-8 lg:flex">
             @foreach ($links as $key => $url)
                 <a href="{{ $url }}" @if($key !== 'services') wire:navigate @endif
-                   class="relative text-sm text-stone-300 transition hover:text-gold-300 after:absolute after:-bottom-1 after:left-0 after:h-px after:w-0 after:bg-gold-400 after:transition-all hover:after:w-full">
+                   class="relative text-sm font-semibold text-stone-300 transition hover:text-gold-300 after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:rounded-full after:w-0 after:bg-gradient-to-r after:from-[#ff4f8b] after:to-[#ffc93c] after:transition-all hover:after:w-full">
                     {{ __('site.nav.'.$key) }}
                 </a>
             @endforeach
@@ -66,7 +62,7 @@
     <div x-cloak x-show="open" x-collapse class="border-t border-white/8 lg:hidden">
         <nav class="container-x flex flex-col gap-1 py-4">
             @foreach ($links as $key => $url)
-                <a href="{{ $url }}" @click="open = false" class="rounded-xl px-3 py-3 font-display text-2xl text-stone-100 hover:bg-white/5">{{ __('site.nav.'.$key) }}</a>
+                <a href="{{ $url }}" @click="open = false" class="rounded-xl px-3 py-3 font-display text-xl text-stone-100 hover:bg-white/5">{{ __('site.nav.'.$key) }}</a>
             @endforeach
             <div class="mt-3 flex flex-wrap gap-3 border-t border-white/8 pt-4">
                 @auth

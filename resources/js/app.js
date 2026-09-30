@@ -1,3 +1,5 @@
+import { initConfetti } from './confetti';
+
 // Reveal-on-scroll for elements with the `reveal` class (re-run after Livewire navigations).
 const reveal = () => {
     const observer = new IntersectionObserver((entries) => {
@@ -12,8 +14,8 @@ const reveal = () => {
     document.querySelectorAll('.reveal:not(.is-visible)').forEach((el) => observer.observe(el));
 };
 
-document.addEventListener('DOMContentLoaded', reveal);
-document.addEventListener('livewire:navigated', reveal);
+document.addEventListener('DOMContentLoaded', () => { reveal(); initConfetti(); });
+document.addEventListener('livewire:navigated', () => { reveal(); initConfetti(); });
 document.addEventListener('livewire:init', () => {
     Livewire.hook('morphed', () => requestAnimationFrame(reveal));
 });

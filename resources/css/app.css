@@ -6,8 +6,9 @@
 @source '../views/**/*.blade.php';
 
 @theme {
-    --font-sans: 'Manrope', 'Noto Sans Armenian', ui-sans-serif, system-ui, sans-serif;
-    --font-display: 'Cormorant Garamond', 'Noto Serif Armenian', ui-serif, Georgia, serif;
+    --font-sans: 'Nunito', 'Noto Sans Armenian', ui-sans-serif, system-ui, sans-serif;
+    --font-display: 'Unbounded', 'Noto Sans Armenian', ui-sans-serif, system-ui, sans-serif;
+    --font-script: 'Pacifico', 'Noto Sans Armenian', cursive;
 
     --color-ink-950: #0b0908;
     --color-ink-900: #13100e;
@@ -24,6 +25,20 @@
     --animate-float: float 8s ease-in-out infinite;
     --animate-marquee: marquee 40s linear infinite;
     --animate-shine: shine 6s linear infinite;
+    --animate-rise: rise 14s ease-in-out infinite;
+    --animate-wiggle: wiggle 3s ease-in-out infinite;
+    --animate-spin-slow: spin 18s linear infinite;
+}
+
+@keyframes rise {
+    0% { transform: translateY(0) rotate(-4deg) }
+    50% { transform: translateY(-28px) rotate(4deg) }
+    100% { transform: translateY(0) rotate(-4deg) }
+}
+
+@keyframes wiggle {
+    0%, 100% { transform: rotate(-6deg) }
+    50% { transform: rotate(6deg) }
 }
 
 @keyframes float {
@@ -46,6 +61,44 @@
     body { @apply bg-ink-950 text-stone-200 antialiased; }
     ::selection { @apply bg-gold-500 text-ink-950; }
     [x-cloak] { display: none !important; }
+
+    /* Public site: light, joyful palette. The admin panel keeps the dark tokens above. */
+    .theme-joy {
+        --color-ink-950: #fffaf3;
+        --color-ink-900: #ffffff;
+        --color-ink-800: #fff1f6;
+        --color-ink-700: #ffe4ee;
+        --color-ink-600: #ffd0e0;
+        --color-stone-50: #2b1537;
+        --color-stone-100: #35203f;
+        --color-stone-200: #3f2a4a;
+        --color-stone-300: #5c4a68;
+        --color-stone-400: #7a6885;
+        --color-stone-500: #9a8aa3;
+        --color-gold-200: #ffd6e6;
+        --color-gold-300: #ff5f97;
+        --color-gold-400: #f23d7c;
+        --color-gold-500: #ff4f8b;
+        --color-gold-600: #e0336f;
+        --color-white: #2b1537;
+    }
+
+    /* Deep plum band (footer) inside the light theme. */
+    .theme-plum {
+        --color-ink-950: #2b1537;
+        --color-ink-900: #3a1f49;
+        --color-ink-800: #472757;
+        --color-stone-50: #fff7fb;
+        --color-stone-100: #fdeef6;
+        --color-stone-200: #f6dcea;
+        --color-stone-300: #e8c6da;
+        --color-stone-400: #cfa9c2;
+        --color-stone-500: #ad8aa3;
+        --color-gold-300: #ffc93c;
+        --color-gold-400: #ff7aa8;
+        --color-gold-500: #ff4f8b;
+        --color-white: #ffffff;
+    }
 }
 
 @layer components {
@@ -60,9 +113,51 @@
         color: transparent;
         @apply animate-shine;
     }
+    .text-rainbow {
+        background: linear-gradient(90deg, #ff4f8b, #ff8a3d, #ffc93c, #1fbf8f, #4cc9f0, #9b5de5, #ff4f8b);
+        background-size: 200% auto;
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        @apply animate-shine;
+    }
     .btn-gold { @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition duration-300 disabled:opacity-60 bg-gold-500 text-ink-950 hover:bg-gold-300 hover:shadow-[0_0_40px_-8px] hover:shadow-gold-500/70; }
     .btn-ghost { @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition duration-300 disabled:opacity-60 border border-white/15 text-stone-100 hover:border-gold-400 hover:text-gold-300; }
     .card { @apply rounded-3xl border border-white/8 bg-ink-900/70 backdrop-blur; }
+    .theme-joy .card { box-shadow: 0 18px 50px -24px rgb(255 79 139 / 0.35); }
+    .theme-joy .btn-gold {
+        background-image: linear-gradient(100deg, #ff4f8b, #ff7a59 55%, #ffb23c);
+        color: #fff;
+        box-shadow: 0 12px 30px -10px rgb(255 79 139 / 0.6);
+    }
+    .theme-joy .btn-gold:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 18px 40px -10px rgb(255 79 139 / 0.7); }
+    .theme-joy .btn-ghost { background: #fff; border-color: #ffc2d8; color: #2b1537; }
+    .theme-joy .btn-ghost:hover { border-color: #ff4f8b; color: #f23d7c; }
+    .theme-joy .eyebrow { @apply tracking-[0.2em]; }
+    .theme-joy .h-display { @apply font-semibold leading-[1.12] tracking-tight; }
+    .theme-joy .field { background: #fff; border-color: #f6d3e1; }
+
+    /* Rotating palette for icons and chips: pink, green, yellow, blue, violet. */
+    .joy-0 { background: #ffe1ec; color: #f23d7c; }
+    .joy-1 { background: #d9f7ea; color: #0e9f78; }
+    .joy-2 { background: #fff1c9; color: #d98e00; }
+    .joy-3 { background: #daf3fc; color: #1289b8; }
+    .joy-4 { background: #eee3fd; color: #7c3fd1; }
+    .text-joy-0 { color: #ff4f8b; } .text-joy-1 { color: #1fbf8f; } .text-joy-2 { color: #f5a300; } .text-joy-3 { color: #26a9e0; } .text-joy-4 { color: #9b5de5; }
+
+    /* Sprinkle of confetti dots behind a section. */
+    .bg-confetti {
+        background-color: #fff;
+        background-image:
+            radial-gradient(circle at 12% 18%, #ffc93c 0 4px, transparent 5px),
+            radial-gradient(circle at 82% 12%, #4cc9f0 0 5px, transparent 6px),
+            radial-gradient(circle at 64% 78%, #ff4f8b 0 4px, transparent 5px),
+            radial-gradient(circle at 26% 84%, #9b5de5 0 3px, transparent 4px),
+            radial-gradient(circle at 92% 62%, #1fbf8f 0 4px, transparent 5px),
+            radial-gradient(circle at 44% 32%, #ff8a3d 0 3px, transparent 4px);
+        background-size: 420px 420px;
+    }
+    .font-script { font-family: var(--font-script); }
     .field {
         @apply w-full rounded-2xl border border-white/10 bg-ink-800/60 px-4 py-3 text-stone-100 placeholder:text-stone-500
                outline-none transition focus:border-gold-500 focus:ring-2 focus:ring-gold-500/20;

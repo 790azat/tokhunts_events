@@ -1,7 +1,7 @@
 <div class="reveal card relative p-6 sm:p-10">
     @if ($sent)
-        <div class="py-16 text-center" x-data x-init="$el.scrollIntoView({ behavior: 'smooth', block: 'center' })">
-            <span class="mx-auto grid size-20 place-items-center rounded-full bg-gold-500/15 text-gold-400"><x-icon name="check" class="size-10" /></span>
+        <div class="py-16 text-center" x-data x-init="$el.scrollIntoView({ behavior: 'smooth', block: 'center' }); setTimeout(() => window.confettiBurst?.(), 400)">
+            <span class="mx-auto grid size-20 place-items-center rounded-full bg-gold-500/15 text-4xl">🎉</span>
             <p class="mt-6 font-display text-3xl text-stone-50">{{ __('site.form.success') }}</p>
             <button wire:click="$set('sent', false)" class="btn-ghost mt-8">{{ __('site.account.new') }}</button>
         </div>
@@ -29,7 +29,7 @@
             </div>
             <div>
                 <label class="label" for="inq-date">{{ __('site.form.event_date') }}</label>
-                <input id="inq-date" wire:model.blur="event_date" type="date" min="{{ now()->toDateString() }}" class="field [color-scheme:dark]">
+                <input id="inq-date" wire:model.blur="event_date" type="date" min="{{ now()->toDateString() }}" class="field [color-scheme:light]">
                 @error('event_date')<p class="error">{{ $message }}</p>@enderror
             </div>
             <div>
