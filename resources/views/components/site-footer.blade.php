@@ -1,9 +1,11 @@
 @props(['settings'])
-<footer class="relative overflow-hidden border-t border-white/8 bg-ink-950 pt-20 pb-10">
-    <div class="pointer-events-none absolute -top-40 left-1/2 size-[36rem] -translate-x-1/2 rounded-full bg-gold-500/10 blur-3xl"></div>
+<footer class="theme-plum relative overflow-hidden bg-ink-950 pt-24 pb-10 text-stone-300">
+    <svg class="absolute inset-x-0 top-0 h-10 w-full text-[#fffaf3]" viewBox="0 0 1440 40" preserveAspectRatio="none" aria-hidden="true"><path fill="currentColor" d="M0 0h1440v14c-120 18-240 26-360 18S840 8 720 8 480 24 360 28 120 26 0 14Z"/></svg>
+    <div class="pointer-events-none absolute -top-40 left-1/4 size-[30rem] rounded-full bg-[#ff4f8b]/20 blur-3xl"></div>
+    <div class="pointer-events-none absolute -bottom-40 right-0 size-[26rem] rounded-full bg-[#1fbf8f]/15 blur-3xl"></div>
     <div class="container-x relative grid gap-12 md:grid-cols-4">
         <div class="md:col-span-2">
-            <p class="font-display text-4xl text-stone-50">Tokhunts <span class="text-gold-gradient italic">Events</span></p>
+            <x-logo size="size-16" light class="[&_.font-script]:text-4xl" />
             <p class="mt-4 max-w-md text-stone-400">{{ __('site.hero.text') }}</p>
             <div class="mt-6 flex gap-3">
                 @foreach (['instagram', 'facebook', 'whatsapp', 'telegram'] as $network)

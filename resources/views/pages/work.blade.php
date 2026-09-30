@@ -12,7 +12,7 @@
         <div class="container-x relative">
             <a href="{{ route('works.index') }}" wire:navigate class="inline-flex items-center gap-2 text-sm text-stone-300 hover:text-gold-300"><x-icon name="arrow" class="size-4 rotate-180" /> {{ __('site.works.back') }}</a>
             @if ($work->category)<p class="eyebrow mt-8">{{ $work->category->tr('name') }}</p>@endif
-            <h1 class="h-display mt-4 max-w-4xl text-5xl sm:text-7xl">{{ $work->tr('title') }}</h1>
+            <h1 class="h-display mt-4 max-w-4xl text-4xl sm:text-6xl">{{ $work->tr('title') }}</h1>
             <div class="mt-6 flex flex-wrap gap-6 text-sm text-stone-300">
                 @if ($work->event_date)<span class="flex items-center gap-2"><x-icon name="calendar" class="size-4 text-gold-400" />{{ $work->event_date->translatedFormat('d F Y') }}</span>@endif
                 @if ($work->location)<span class="flex items-center gap-2"><x-icon name="pin" class="size-4 text-gold-400" />{{ $work->location }}</span>@endif
@@ -66,17 +66,17 @@
     </section>
 
     @if ($related->isNotEmpty())
-        <section class="border-t border-white/8 bg-ink-900/60 py-20">
+        <section class="bg-confetti py-20">
             <div class="container-x">
                 <h2 class="h-display text-4xl">{{ __('site.works.related') }}</h2>
                 <div class="mt-10 grid gap-6 md:grid-cols-3">
                     @foreach ($related as $item)
-                        <a href="{{ route('works.show', $item) }}" wire:navigate class="group relative block aspect-[4/5] overflow-hidden rounded-3xl bg-ink-800">
+                        <a href="{{ route('works.show', $item) }}" wire:navigate class="theme-plum group relative block aspect-[4/5] overflow-hidden rounded-3xl bg-ink-800 shadow-[0_25px_50px_-25px_rgb(43_21_55/0.5)]">
                             @if ($item->cover()?->thumbnail())
                                 <img src="{{ $item->cover()->thumbnail() }}" alt="" loading="lazy" class="absolute inset-0 size-full object-cover transition duration-1000 group-hover:scale-110">
                             @endif
-                            <div class="absolute inset-0 bg-gradient-to-t from-ink-950 to-transparent"></div>
-                            <p class="absolute bottom-6 left-6 font-display text-2xl text-stone-50">{{ $item->tr('title') }}</p>
+                            <div class="absolute inset-0 bg-gradient-to-t from-ink-950/90 to-transparent"></div>
+                            <p class="absolute bottom-6 left-6 font-display text-xl font-semibold text-stone-50">{{ $item->tr('title') }}</p>
                         </a>
                     @endforeach
                 </div>

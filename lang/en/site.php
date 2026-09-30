@@ -18,10 +18,10 @@ return [
     ],
     'hero' => [
         'eyebrow' => 'Tokhunts Events · Armenia',
-        'title' => 'We create events people talk about for years',
-        'words' => ['weddings', 'birthdays', 'engagements', 'corporate parties', 'kids parties'],
+        'title' => 'We create moments that become stories',
+        'words' => ['kids parties', 'birthdays', 'animator shows', 'weddings', 'confetti & fireworks'],
         'we_organize' => 'We organize',
-        'text' => 'Concept, decor, program, hosts, music and every detail in between. You enjoy the moment, we take care of the rest.',
+        'text' => 'Costumed animators, giant inflatable bears, dancers and angels, confetti and fireworks. We plan and run the whole party, you just enjoy it with your guests.',
         'cta' => 'Plan my event',
         'cta_secondary' => 'See our works',
         'scroll' => 'Scroll',
