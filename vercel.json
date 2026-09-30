@@ -20,6 +20,13 @@
             }
         },
         {
+            "src": "/media/(.*)",
+            "dest": "/media/$1",
+            "headers": {
+                "Cache-Control": "public, max-age=604800"
+            }
+        },
+        {
             "src": "/(favicon\\.(?:ico|svg)|robots\\.txt|logo\\.(?:svg|png))",
             "dest": "/$1"
         },

@@ -4,25 +4,24 @@ namespace Database\Seeders;
 
 use App\Models\Category;
 use App\Models\Service;
-use App\Models\Work;
 use Illuminate\Database\Seeder;
 
 /**
  * Starter content so the site is not empty on first deploy.
- * Demo works use stock photos: replace them with real ones from the admin panel.
+ * Portfolio works come from PortfolioSeeder (real photos and videos in public/media/works).
  * Safe to run more than once (skips what already exists).
  */
 class ContentSeeder extends Seeder
 {
     public function run(): void
     {
-        $categories = collect([
+        collect([
             'weddings' => ['hy' => 'Հարսանիքներ', 'ru' => 'Свадьбы', 'en' => 'Weddings'],
             'birthdays' => ['hy' => 'Ծննդյան տոներ', 'ru' => 'Дни рождения', 'en' => 'Birthdays'],
             'kids' => ['hy' => 'Մանկական տոներ', 'ru' => 'Детские праздники', 'en' => 'Kids parties'],
             'engagements' => ['hy' => 'Նշանադրություններ', 'ru' => 'Помолвки', 'en' => 'Engagements'],
             'corporate' => ['hy' => 'Կորպորատիվ', 'ru' => 'Корпоративы', 'en' => 'Corporate'],
-        ])->map(fn ($name, $slug) => Category::firstOrCreate(['slug' => $slug], [
+        ])->each(fn ($name, $slug) => Category::firstOrCreate(['slug' => $slug], [
             'name' => $name,
             'position' => array_search($slug, ['weddings', 'birthdays', 'kids', 'engagements', 'corporate']),
         ]));
@@ -41,38 +40,6 @@ class ContentSeeder extends Seeder
             }
         }
 
-        if (Work::exists()) {
-            return;
-        }
-
-        $img = fn (string $id) => "https://images.unsplash.com/photo-{$id}?auto=format&fit=crop&w=1600&q=75";
-
-        $works = [
-            ['weddings', ['hy' => 'Ոսկե հարսանիք այգում', 'ru' => 'Золотая свадьба в саду', 'en' => 'Golden garden wedding'], true, ['1519741497674-611481863552', '1465495976277-4387d4b0b4c6', '1511285560929-80b456fea0bc', '1519225421980-715cb0215aed']],
-            ['birthdays', ['hy' => 'Ծննդյան երեկո «Գլամուր»', 'ru' => 'День рождения «Гламур»', 'en' => 'Glamour birthday night'], true, ['1530103862676-de8c9debad1d', '1464349095431-e9a21285b5f3', '1513151233558-d860c5398176']],
-            ['engagements', ['hy' => 'Նշանադրություն վարդագույն երանգներով', 'ru' => 'Помолвка в розовых тонах', 'en' => 'Blush engagement'], false, ['1522673607200-164d1b6ce486', '1469371670807-013ccf25f16a', '1511795409834-ef04bbd61622']],
-            ['kids', ['hy' => 'Մանկական տոն «Կախարդական աշխարհ»', 'ru' => 'Детский праздник «Волшебный мир»', 'en' => 'Magic world kids party'], false, ['1530103043960-ef38714abb15', '1558636508-e0db3814bd1d', '1527529482837-4698179dc6ce']],
-            ['corporate', ['hy' => 'Ամանորյա կորպորատիվ', 'ru' => 'Новогодний корпоратив', 'en' => 'New Year corporate party'], false, ['1492684223066-81342ee5ff30', '1505236858219-8359eb29e329', '1540575467063-178a50c2df87']],
-            ['weddings', ['hy' => 'Սպիտակ և կանաչ հարսանիք', 'ru' => 'Бело-зелёная свадьба', 'en' => 'White & greenery wedding'], false, ['1478146896981-b80fe463b330', '1464366400600-7168b8af9bc3', '1507504031003-b417219a0fde']],
-        ];
-
-        foreach ($works as $i => [$category, $title, $featured, $photos]) {
-            $work = Work::create([
-                'category_id' => $categories[$category]->id,
-                'title' => $title,
-                'description' => [
-                    'hy' => 'Օրինակելի աշխատանք։ Փոխարինեք այն իրական լուսանկարներով ադմին վահանակից։',
-                    'ru' => 'Демонстрационная работа. Замените её настоящими фото и видео через админ-панель.',
-                    'en' => 'Demo work. Replace it with real photos and videos from the admin panel.',
-                ],
-                'location' => 'Yerevan',
-                'event_date' => now()->subMonths($i * 2 + 1)->toDateString(),
-                'is_featured' => $featured,
-            ]);
-
-            foreach ($photos as $position => $photo) {
-                $work->media()->create(['type' => 'image', 'url' => $img($photo), 'position' => $position]);
-            }
-        }
+        $this->call(PortfolioSeeder::class);
     }
 }
