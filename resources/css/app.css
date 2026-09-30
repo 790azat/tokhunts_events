@@ -1,0 +1,80 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../vendor/livewire/livewire/src/**/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../views/**/*.blade.php';
+
+@theme {
+    --font-sans: 'Manrope', 'Noto Sans Armenian', ui-sans-serif, system-ui, sans-serif;
+    --font-display: 'Cormorant Garamond', 'Noto Serif Armenian', ui-serif, Georgia, serif;
+
+    --color-ink-950: #0b0908;
+    --color-ink-900: #13100e;
+    --color-ink-800: #1d1916;
+    --color-ink-700: #2a2420;
+    --color-ink-600: #3b332d;
+    --color-gold-200: #f3e3bd;
+    --color-gold-300: #e9cd8c;
+    --color-gold-400: #dfba6c;
+    --color-gold-500: #d4a853;
+    --color-gold-600: #b88a37;
+    --color-blush-400: #e7a8a0;
+
+    --animate-float: float 8s ease-in-out infinite;
+    --animate-marquee: marquee 40s linear infinite;
+    --animate-shine: shine 6s linear infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0) }
+    50% { transform: translateY(-14px) }
+}
+
+@keyframes marquee {
+    from { transform: translateX(0) }
+    to { transform: translateX(-50%) }
+}
+
+@keyframes shine {
+    from { background-position: 0% 50% }
+    to { background-position: 200% 50% }
+}
+
+@layer base {
+    html { scroll-behavior: smooth; }
+    body { @apply bg-ink-950 text-stone-200 antialiased; }
+    ::selection { @apply bg-gold-500 text-ink-950; }
+    [x-cloak] { display: none !important; }
+}
+
+@layer components {
+    .container-x { @apply mx-auto w-full max-w-7xl px-5 sm:px-8; }
+    .eyebrow { @apply text-xs font-semibold uppercase tracking-[0.3em] text-gold-400; }
+    .h-display { @apply font-display font-medium leading-[1.05] text-stone-50; }
+    .text-gold-gradient {
+        background: linear-gradient(90deg, #f3e3bd, #d4a853, #b88a37, #d4a853, #f3e3bd);
+        background-size: 200% auto;
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        @apply animate-shine;
+    }
+    .btn-gold { @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition duration-300 disabled:opacity-60 bg-gold-500 text-ink-950 hover:bg-gold-300 hover:shadow-[0_0_40px_-8px] hover:shadow-gold-500/70; }
+    .btn-ghost { @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition duration-300 disabled:opacity-60 border border-white/15 text-stone-100 hover:border-gold-400 hover:text-gold-300; }
+    .card { @apply rounded-3xl border border-white/8 bg-ink-900/70 backdrop-blur; }
+    .field {
+        @apply w-full rounded-2xl border border-white/10 bg-ink-800/60 px-4 py-3 text-stone-100 placeholder:text-stone-500
+               outline-none transition focus:border-gold-500 focus:ring-2 focus:ring-gold-500/20;
+    }
+    .label { @apply mb-1.5 block text-xs font-medium uppercase tracking-wider text-stone-400; }
+    .error { @apply mt-1 text-xs text-rose-400; }
+    .reveal { @apply translate-y-8 opacity-0 transition duration-1000 ease-out; }
+    .reveal.is-visible { @apply translate-y-0 opacity-100; }
+
+    /* Admin */
+    .a-card { @apply rounded-2xl border border-white/8 bg-ink-900 p-5; }
+    .a-field { @apply w-full rounded-xl border border-white/10 bg-ink-800 px-3 py-2 text-sm text-stone-100 outline-none focus:border-gold-500; }
+    .a-label { @apply mb-1 block text-xs font-medium text-stone-400; }
+    .a-btn { @apply inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold transition disabled:opacity-50; }
+}
